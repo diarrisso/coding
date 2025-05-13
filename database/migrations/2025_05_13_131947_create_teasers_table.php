@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('teasers', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->index();
+            $table->text('description');
+            $table->string('slug')->unique();
+            $table->string('image_path');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
