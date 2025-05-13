@@ -13,7 +13,7 @@ class TeaserPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class TeaserPolicy
      */
     public function view(User $user, Teaser $teaser): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class TeaserPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,8 @@ class TeaserPolicy
      */
     public function update(User $user, Teaser $teaser): bool
     {
-        return false;
+        return $user->id === $teaser->user_id;
+
     }
 
     /**
@@ -45,7 +46,7 @@ class TeaserPolicy
      */
     public function delete(User $user, Teaser $teaser): bool
     {
-        return false;
+        return $user->id === $teaser->user_id;
     }
 
     /**
