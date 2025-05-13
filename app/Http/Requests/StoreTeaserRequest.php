@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreTeaserRequest extends FormRequest
 {
@@ -11,18 +13,30 @@ class StoreTeaserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check();
+    }
+
+    public function prepareForValidation(): void
+    {
+        $this->merge([
+            'user_id' => auth()->id(),
+            'slug' => Str::slug($this->title, '_'),
+        ]);
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:1000',
+            'slug' => 'required|string|max:255|unique:teasers,slug',
+            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user_id' => 'required|exists:users,id',
         ];
     }
 }
