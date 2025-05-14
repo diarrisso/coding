@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -35,7 +35,7 @@ class StoreTeaserRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
             'slug' => 'required|string|max:255|unique:teasers,slug',
-            'image_path' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_name' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'user_id' => 'required|exists:users,id',
         ];
     }
