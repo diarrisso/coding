@@ -1,6 +1,12 @@
 <?php
 
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\TeaserController;
+use App\Livewire\Home;
+use App\Livewire\TeaserForm;
+use App\Livewire\TeaserList;
+use App\Livewire\TeaserShow;
+use App\Livewire\TeaserUpdate;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -29,6 +35,16 @@ Route::middleware('auth')->group(function () {
 
     Volt::route('confirm-password', 'auth.confirm-password')
         ->name('password.confirm');
+
+    Route::get('/teasers', TeaserList::class)->name('teasers.index');
+    Route::get('/teasers/create',TeaserForm::class)->name('teasers.create');
+    Route::get('/teasers/{teaser:slug}', TeaserShow::class)->name('teasers.show');
+    Route::get('/teasers/{teaser}/edit',TeaserUpdate::class)->name('teasers.edit');
+
+
+
+    Route::get('/', Home::class)->name('home');
+
 });
 
 Route::post('logout', App\Livewire\Actions\Logout::class)
