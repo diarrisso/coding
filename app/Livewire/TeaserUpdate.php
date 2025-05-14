@@ -271,7 +271,7 @@ class TeaserUpdate extends Component
     public function render(): View
     {
         return view('livewire.teasers.teaser-update', [
-            'teaser' => $this->teaser  // Explicitly pass the teaser to the view
-        ]);
+            'teaser' => $this->teaser
+        ])->layout('components.layouts.app');
     }
 }
