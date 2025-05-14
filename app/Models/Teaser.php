@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Teaser extends Model
 {
@@ -16,7 +17,7 @@ class Teaser extends Model
         'title',
         'description',
         'slug',
-        'image_path',
+        'image_name',
         'user_id',
     ];
 
@@ -32,4 +33,23 @@ class Teaser extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * Get the full path to the image.
+     */
+    public function getImageUrl(): string
+    {
+        if (!$this->image_name) {
+            return  asset('images/default-teaser.png');
+        }
+
+        return asset('teasers/' . $this->id . '/' . $this->image_name);
+    }
+
+
+    public function getExcerptAttribute(): string
+    {
+        return \Str::limit($this->description, 150);
+    }
+
 }
