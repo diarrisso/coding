@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -15,6 +16,11 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The default role for new users.
+     */
+    public const ROLE_DEFAULT = 'USER';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -23,6 +29,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,6 +52,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => UserRole::class,
         ];
     }
 
@@ -72,6 +80,22 @@ class User extends Authenticatable
     public function image()
     {
         return $this->hasOne(Image::class)->latest();
+    }
+
+    /**
+     * Check if the user has the admin role.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === UserRole::ADMIN;
+    }
+
+    /**
+     * Check if the user has the user role.
+     */
+    public function isUser(): bool
+    {
+        return $this->role === UserRole::USER;
     }
 
 
