@@ -23,6 +23,12 @@
                     Zurück zur Übersicht
                 </a>
             </div>
+
+            @if (Auth::id() === $teaser->user_id)
+                <a href="{{ route('teasers.edit', $teaser) }}" class="text-center text-sm bg-blue-600 hover:bg-blue-700 text-white md:text-lg px-8 py-2 rounded-full">
+                    Bearbeiten
+                </a>
+            @endif
         </div>
     </div>
 </div>
