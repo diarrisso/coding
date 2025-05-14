@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,7 +26,7 @@ class UpdateTeaserRequest extends FormRequest
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:1000',
             'slug' => 'required|string|max:255|unique:teasers,slug,' . $this->route('teaser'),
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_name' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'user_id' => 'required|exists:users,id',
         ];
     }
