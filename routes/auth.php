@@ -2,9 +2,10 @@
 
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\TeaserController;
-use App\Livewire\Home;
+use App\Livewire\TeaserDelete;
 use App\Livewire\TeaserForm;
 use App\Livewire\TeaserList;
+use App\Livewire\Teasers\Index;
 use App\Livewire\TeaserShow;
 use App\Livewire\TeaserUpdate;
 use Illuminate\Support\Facades\Route;
@@ -40,12 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/teasers/create',TeaserForm::class)->name('teasers.create');
     Route::get('/teasers/{teaser:slug}', TeaserShow::class)->name('teasers.show');
     Route::get('/teasers/{teaser}/edit',TeaserUpdate::class)->name('teasers.edit');
-
-
-
-    Route::get('/', Home::class)->name('home');
-
+    Route::delete('/teasers/{teaser}', [TeaserController::class, 'destroy'])->name('teasers.destroy');
+    Route::get('/', Index::class)->name('teasers.home');
 });
 
-Route::post('logout', App\Livewire\Actions\Logout::class)
-    ->name('logout');
+Route::post('logout', App\Livewire\Actions\Logout::class)->name('logout');
