@@ -19,13 +19,31 @@
 
 
     @if (session()->has('message'))
-        <div class="bg-primary-100 border-l-4 border-primary-500 text-primary-500 p-4 mb-6" role="alert">
+        <div
+            x-data="{ show: true }"
+            x-init="setTimeout(() => { show = false; setTimeout(() => { $el.remove() }, 500) }, 5000)"
+            x-show="show"
+            x-transition:leave="transition ease-in duration-500"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="bg-primary-100 border-l-4 border-primary-500 text-primary-500 p-4 mb-6"
+            role="alert"
+        >
             <p>{{ session('message') }}</p>
         </div>
     @endif
 
     @if (session()->has('error'))
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
+        <div
+            x-data="{ show: true }"
+            x-init="setTimeout(() => { show = false; setTimeout(() => { $el.remove() }, 500) }, 5000)"
+            x-show="show"
+            x-transition:leave="transition ease-in duration-500"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6"
+            role="alert"
+        >
             <p>{{ session('error') }}</p>
         </div>
     @endif
