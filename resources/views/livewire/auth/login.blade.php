@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Validate;
@@ -25,7 +26,10 @@ new #[Layout('components.layouts.auth')] class extends Component {
      */
     public function login(): void
     {
-        $this->validate();
+        $this->validate([
+            'email' => ['required', 'string', 'email'],
+            'password' => ['required', 'string', Password::defaults()],
+        ]);
 
         $this->ensureIsNotRateLimited();
 
