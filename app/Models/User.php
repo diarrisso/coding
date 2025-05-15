@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\UserRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,9 +11,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
+/**
+ *
+ */
 class User extends Authenticatable implements MustVerifyEmail
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
     /**
@@ -67,16 +71,25 @@ class User extends Authenticatable implements MustVerifyEmail
             ->implode('');
     }
 
+    /**
+     * @return HasMany
+     */
     public function teasers(): HasMany
     {
         return $this->hasMany(Teaser::class);
     }
 
+    /**
+     * Get the user's profile image.
+     */
     public function images(): HasMany
     {
         return $this->hasMany(Image::class);
     }
 
+    /**
+     * Get the user's latest profile image.
+     */
     public function image()
     {
         return $this->hasOne(Image::class)->latest();

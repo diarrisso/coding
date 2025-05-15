@@ -23,7 +23,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /**
+         * Automatically eager load relationships on all models.
+         * This is useful for performance optimization.
+         */
         Model::automaticallyEagerLoadRelationships();
+
+
         Teaser::observe(TeaserObserver::class);
 
 

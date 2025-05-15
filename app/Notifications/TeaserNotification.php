@@ -26,7 +26,14 @@ class TeaserNotification extends Notification implements ShouldQueue
         return ['mail'];
     }
 
-    public function toMail($notifiable): MailMessage
+    /**
+     * Get the notification's delivery channels.
+     *
+     * @param mixed $notifiable
+     * @return MailMessage
+     */
+
+    public function toMail(mixed $notifiable): MailMessage
     {
         $recipientName = $notifiable->name ?? 'Administrator';
         return (new MailMessage)
@@ -38,11 +45,5 @@ class TeaserNotification extends Notification implements ShouldQueue
             ->line('Danke, dass du unsere App benutzt hast!');
     }
 
-    public function toArray($notifiable): array
-    {
-        return [
-
-        ];
-    }
 
 }
