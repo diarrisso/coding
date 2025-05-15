@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Teaser;
+use App\Observers\TeaserObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\ServiceProvider;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::automaticallyEagerLoadRelationships();
+        Teaser::observe(TeaserObserver::class);
 
 
         Password::defaults(static function () {
