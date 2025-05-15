@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans+Narrow:wght@400;700&display=swap');
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
 
@@ -9,7 +10,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'PT Sans Narrow', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
     --color-zinc-50: #fafafa;
     --color-zinc-100: #f5f5f5;
@@ -22,6 +23,19 @@
     --color-zinc-800: #262626;
     --color-zinc-900: #171717;
     --color-zinc-950: #0a0a0a;
+
+    --color-primary-50: #e7f5ed;
+    --color-primary-100: #c4e5d0;
+    --color-primary-200: #9cd4af;
+    --color-primary-300: #6fc38d;
+    --color-primary-400: #46b571;
+    --color-primary-500: #1ea754;
+    --color-primary-600: #10994d;
+    --color-primary-700: #088a30;
+    --color-primary-800: #077a2f;
+    --color-primary-900: #056a28;
+    --color-primary-950: #025a22;
+    --color-primary-base: rgb(8, 122, 48);
 
     --color-accent: var(--color-neutral-800);
     --color-accent-content: var(--color-neutral-800);
@@ -38,6 +52,50 @@
 
 @layer base {
 
+    body {
+        font-family: 'PT Sans Narrow', sans-serif;
+        background-color: #fff;
+        color: #333;
+        font-size: 16px;
+        line-height: 1.6;
+        letter-spacing: 0.01em;
+        min-height: 100vh;
+    }
+
+    body.dark {
+        background-color: var(--color-zinc-900);
+        color: var(--color-zinc-50);
+    }
+
+    body.dark h1,
+    body.dark h2,
+    body.dark h3,
+    body.dark h4,
+    body.dark h5,
+    body.dark h6 {
+        color: var(--color-zinc-50);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--color-zinc-900);
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        max-width: 100%;
+    }
+
+    a {
+        color: rgb(8, 122, 48);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    a:hover {
+        color: rgb(6, 102, 40);
+    }
+
+
     *,
     ::after,
     ::before,
@@ -46,6 +104,110 @@
         border-color: var(--color-gray-200, currentColor);
     }
 }
+
+
+@layer utilities {
+
+    .font-narrow {
+        font-family: 'PT Sans Narrow', sans-serif !important;
+    }
+
+    .bg-primary-base {
+        --tw-bg-opacity: 1;
+        background-color: rgb(8 122 48 / var(--tw-bg-opacity, 1));
+    }
+
+    .bg-primary-50 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-50, rgb(231 245 237 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-100 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-100, rgb(196 229 208 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-200 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-200, rgb(156 212 175 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-300 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-300, rgb(111 195 141 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-400 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-400, rgb(70 181 113 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-500 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-500, rgb(30 167 84 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-600 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-600, rgb(16 153 77 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-700 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-700, rgb(8 138 48 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-800 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-800, rgb(7 122 47 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-900 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-900, rgb(5 106 40 / var(--tw-bg-opacity, 1)));
+    }
+
+    .bg-primary-950 {
+        --tw-bg-opacity: 1;
+        background-color: var(--color-primary-950, rgb(2 90 34 / var(--tw-bg-opacity, 1)));
+    }
+
+    .text-primary-base {
+        --tw-text-opacity: 1;
+        color: rgb(8 122 48 / var(--tw-text-opacity, 1));
+    }
+
+    .text-primary-50 {
+        --tw-text-opacity: 1;
+        color: var(--color-primary-50, rgb(231 245 237 / var(--tw-text-opacity, 1)));
+    }
+
+
+    .border-primary-base {
+        --tw-border-opacity: 1;
+        border-color: rgb(8 122 48 / var(--tw-border-opacity, 1));
+    }
+
+    .line-clamp-1 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .line-clamp-3 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+
+}
+
+
+
+
+
 
 [data-flux-field]:not(ui-radio, ui-checkbox) {
     @apply grid gap-2;
