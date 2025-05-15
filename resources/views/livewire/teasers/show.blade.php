@@ -2,9 +2,9 @@
     <livewire:teaser-delete />
     <div class=" pt-4 md:pt-12 pb-8 flex justify-center">
         <div class="max-w-[960px] w-full mx-auto md:px-4">
-            <div class="relative overflow-hidden md:rounded-2xl h-[300px] md:h-[540px] ">
+            <div class="relative overflow-hidden md:rounded-2xl aspect-video ">
                 <img
-                    src="{{ asset('storage/teasers/' . $teaser->id . '/' . $teaser->image_name) }}"
+                    src="{{ Storage::url($teaser->image_name) }}"
                     alt="Bild"
                     class="w-full md:h-full object-cover bg-gray-100"
                 >
@@ -27,11 +27,11 @@
                     </div>
                 @endif
                 <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/100 to-transparent text-white">
-                    <h3 class="md:text-5xl text-sm sm:text-4xl xs:text-3xl font-bold p-5 md:p-5 sm:p-4 xs:p-3">{{ $teaser->title }}</h3>
+                    <h3 class="md:text-5xl text-white sm:text-4xl xs:text-3xl font-bold p-5 md:p-5 sm:p-4 xs:p-3">{{ $teaser->title }}</h3>
                 </div>
             </div>
 
-            <div class="mt-6 text-sm text-black dark:text-white mb-11 px-4">
+            <div class="mt-6 text-lg  text-black dark:text-white mb-11 px-4">
                 <p class="mb-4">
                     {{ $teaser->description }}
                 </p>
