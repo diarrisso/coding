@@ -113,6 +113,8 @@ class TeaserForm extends Component
 
     public function mount(?Teaser $teaser = null): void
     {
+        $this->isLoading = false;
+
         Log::info('TeaserForm mount', [
             'route_name' => request()->route()->getName(),
             'is_create_route' => request()->routeIs('teasers.create'),
@@ -126,13 +128,11 @@ class TeaserForm extends Component
             return;
         }
 
-        // New teaser creation mode
         if (!$teaser || !$teaser->exists) {
             $this->isEditMode = false;
             return;
         }
 
-        // Edit existing teaser
         if (!$this->checkAuthorization($teaser)) {
             return;
         }
@@ -181,6 +181,7 @@ class TeaserForm extends Component
     private function resetForm(): void
     {
         $this->reset(['title', 'description', 'slug', 'image_name', 'teaser', 'teaserId', 'isEditMode']);
+        $this->isLoading = false;
     }
 
     /**
@@ -223,9 +224,7 @@ class TeaserForm extends Component
         return [
             'title' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:10|max:1000',
-            'slug' => $this->isEditMode
-                ? 'required|string|max:255'
-                : 'required|string|max:255|unique:teasers,slug',
+            'slug' => 'required|string|max:255',
             'image' =>  'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'user_id' => 'required|exists:users,id',
         ];
@@ -245,12 +244,10 @@ class TeaserForm extends Component
             'description.required' => 'Der Text ist erforderlich.',
             'description.min' => 'Der Text muss mindestens 10 Zeichen lang sein.',
             'description.max' => 'Der Text darf maximal 1000 Zeichen lang sein.',
-
             'image.required' => 'Ein Bild ist erforderlich.',
             'image.image' => 'Die Datei muss ein Bild sein.',
             'image.mimes' => 'Das Bild muss im Format JPEG, PNG, JPG oder GIF sein.',
             'image.max' => 'Das Bild darf maximal 1MB groß sein.',
-
             'user_id.required' => 'Benutzer-ID ist erforderlich.',
             'user_id.exists' => 'Ungültige Benutzer-ID.',
         ];
@@ -267,10 +264,34 @@ class TeaserForm extends Component
     protected function prepareForValidation($attributes)
     {
         if (empty($attributes['slug']) && !empty($attributes['title'])) {
-            $attributes['slug'] = Str::slug($attributes['title']);
+            $attributes['slug'] = $this->generateUniqueSlug($attributes['title']);
         }
 
         return $attributes;
+    }
+
+    /**
+     * Generate a unique slug based on the title
+     *
+     * @param string $title
+     * @return string
+     */
+    protected function generateUniqueSlug(string $title): string
+    {
+        $slug = Str::slug($title);
+        $originalSlug = $slug;
+        $count = 1;
+
+
+        if ($this->isEditMode && $this->teaser && $this->teaser->slug === $slug) {
+            return $slug;
+        }
+
+        while (Teaser::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
+        return $slug;
     }
 
 
@@ -399,7 +420,7 @@ class TeaserForm extends Component
             }
 
             if (empty($this->slug) && !empty($this->title)) {
-                $this->slug = Str::slug($this->title);
+                $this->slug = $this->generateUniqueSlug($this->title);
             }
 
             $this->validate();
@@ -417,7 +438,8 @@ class TeaserForm extends Component
             $this->dispatch('refresh-teasers');
 
             $this->isLoading = false;
-            return redirect()->route('teasers.index');
+            session()->flash('isLoading', false);
+            return $this->redirect(route('teasers.index'));
 
         } catch (ValidationException $e) {
             $this->isLoading = false;
