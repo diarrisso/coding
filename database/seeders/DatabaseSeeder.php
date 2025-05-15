@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
-            TeaserSeeder::class,
         ]);
     }
 }
