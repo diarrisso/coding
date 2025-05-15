@@ -1,10 +1,12 @@
 # Laravel + Livewire Projekt
 
-Dieses Projekt wurde mit Laravel als Backend-Framework und Livewire entwickelt, um dynamische Benutzeroberflächen zu erstellen, ohne komplexes JavaScript schreiben zu müssen.
+Dieses Projekt wurde mit Laravel als Backend-Framework und Livewire entwickelt, 
+um dynamische Benutzeroberflächen zu erstellen, ohne komplexes JavaScript schreiben zu müssen.
 
 ## Einführung
 
-Diese Anwendung nutzt die Leistungsfähigkeit von Laravel in Kombination mit Livewire, um ein reaktives und dynamisches Benutzererlebnis zu bieten und gleichzeitig die Einfachheit der serverseitigen PHP-Entwicklung beizubehalten.
+Diese Anwendung nutzt die Leistungsfähigkeit von Laravel in Kombination mit Livewire, um ein reaktives 
+und dynamisches Benutzererlebnis zu bieten und gleichzeitig die Einfachheit der serverseitigen PHP-Entwicklung beizubehalten.
 
 ## Voraussetzungen
 
@@ -75,6 +77,7 @@ npm run build
 
 ```bash
 php artisan serve
+oder composer run dev
 ```
 
 Die Anwendung ist unter [http://localhost:8000](http://localhost:8000) erreichbar.
