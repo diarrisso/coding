@@ -3,6 +3,10 @@
 namespace App\Observers;
 
 use App\Models\Teaser;
+use App\Models\User;
+use App\Notifications\TeaserNotification;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 
 class TeaserObserver
 {
@@ -12,8 +16,24 @@ class TeaserObserver
      * @param Teaser $teaser
      * @return void
      */
-    public function created(Teaser $teaser)
+    public function created(Teaser $teaser): void
     {
+
+        $admins = User::where('role', 'admin')->get();
+        if ($admins->isNotEmpty()) {
+            Notification::send($admins, new TeaserNotification($teaser));
+            Log::info('TeaserObserver send ', ['count' => $admins->count()]);
+        } else {
+            Log::info('TeaserObserver no admins found');
+        }
+
+
+        $adminEmail = 'diarrisso49@gmail.com';
+        Notification::route('mail', $adminEmail)->notify(new TeaserNotification($teaser));
+
+        Log::info('TeaserObserver directly  send ', ['email' => $adminEmail]);
+
+        Log::info('Teaser  created via TeaserObserver', ['id' => $teaser->id]);
 
     }
 
@@ -25,7 +45,6 @@ class TeaserObserver
      */
     public function updated(Teaser $teaser)
     {
-        //
     }
 
     /**
