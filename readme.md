@@ -21,7 +21,7 @@ und dynamisches Benutzererlebnis zu bieten und gleichzeitig die Einfachheit der 
 ### 1. Repository klonen
 
 ```bash
-git clone <REPOSITORY_URL>
+git clone https://github.com/diarrisso/coding.git
 cd <PROJEKT_NAME>
 ```
 
@@ -126,7 +126,7 @@ Für Testzwecke wird automatisch eine Admin-Rolle zugewiesen. Dies ermöglicht d
 ### Erstellen einer Livewire-Komponente
 
 ```bash
-php artisan make:livewire KomponentenName
+php artisan make:livewire <KomponentenName>
 ```
 
 Dieser Befehl erstellt sowohl die PHP-Klasse als auch die Blade-Ansichtsdatei.
