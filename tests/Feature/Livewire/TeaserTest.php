@@ -16,58 +16,77 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     $this->admin = User::factory()->create([
         'role' => 'ADMIN',
-        'email' => 'admin@example.com',
+        'email' => 'admin@coding.com',
     ]);
 
     $this->user = User::factory()->create([
         'role' => 'USER',
-        'email' => 'user@example.com',
+        'email' => 'coding@coding.com',
     ]);
 
     Storage::fake('public');
-
-    $fakeImage = UploadedFile::fake()->image('teaser-image.jpg', 640, 480);
-
-    $this->fakeImage = $fakeImage;
-    $this->imagePath = $fakeImage->store('teasers', 'public');
-
+    $this->timestamp = now()->timestamp;
+    $filename = "teaser-image-{$this->timestamp}.jpg";
+    $this->fakeImage = UploadedFile::fake()->image($filename, 640, 480);
+    $this->imagePath = $this->fakeImage->store('teasers', 'public');
 
 });
 
 test('teaser can be created by authenticated user', function () {
     $this->actingAs($this->user);
 
-
     Livewire::test(TeaserForm::class)
         ->set('title', 'Test Teaser')
         ->set('description', 'This is a test teaser description')
         ->set('slug', 'teaser')
         ->set('user_id', $this->user->id)
-        ->set('image_name', $this->fakeImage)
+        ->set('image', $this->fakeImage)
         ->call('save')
         ->assertHasNoErrors()
         ->assertRedirect(route('teasers.index'));
 
-    Storage::disk('public')->assertExists($this->imagePath);
+    $teaser = Teaser::where('title', 'Test Teaser')->first();
+
+    $this->assertNotNull($teaser);
+    $this->assertEquals('This is a test teaser description', $teaser->description);
+    $this->assertEquals('teaser', $teaser->slug);
+    $this->assertEquals($this->user->id, $teaser->user_id);
+
+    $this->assertNotNull($teaser->image_name);
+
+    Storage::disk('public')->assertExists($teaser->image_name);
+
 
     $this->assertDatabaseHas('teasers', [
         'title' => 'Test Teaser',
         'description' => 'This is a test teaser description',
         'slug' => 'teaser',
         'user_id' => $this->user->id,
-        'image_name' =>$this->fakeImage,
+        'image_name' =>$teaser->image_name,
     ]);
 });
 
-test('teaser requires title and content', function () {
+test('teaser requires title description ', closure: function () {
     $this->actingAs($this->user);
 
-
-    Livewire::test(Create::class)
-        ->set('title', '')
-        ->set('description', '')
+    Livewire::test(TeaserForm::class)
+        ->set('title', 'Te')
+        ->set('description', 'This is a test teaser description')
+        ->set('slug', 'teaser-slug')
+        ->set('image', $this->fakeImage)
         ->call('save')
-        ->assertHasErrors(['title', 'description']);
+        ->assertHasErrors(['title']);
+
+
+    Livewire::test(TeaserForm::class)
+        ->set('title', 'Test Teaser')
+        ->set('description', 'Too short')
+        ->set('slug', 'teaser-slug')
+        ->set('user_id', $this->user->id)
+        ->set('image', $this->fakeImage)
+        ->call('save')
+        ->assertHasErrors(['description']);
+
 });
 
 test('teaser title must be at least 3 characters', function () {
@@ -108,13 +127,13 @@ test('guest cannot access teaser creation page', function () {
 test('user can see own teasers in listing', function () {
     $this->actingAs($this->user);
 
-    $userTeaser = Teaser::factory()->create([
+     Teaser::factory()->create([
         'user_id' => $this->user->id,
         'title' => 'User Teaser',
         'description' => 'This is a user teaser',
     ]);
 
-    $otherTeaser = Teaser::factory()->create([
+    Teaser::factory()->create([
         'user_id' => $this->admin->id,
         'title' => 'Admin Teaser'
     ]);
@@ -127,3 +146,5 @@ test('user can see own teasers in listing', function () {
             ->assertDontSee('Admin Teaser');
     }
 });
+
+
