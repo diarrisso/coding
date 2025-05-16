@@ -18,7 +18,7 @@ class TeaserNotification extends Notification implements ShouldQueue
      *
      * @param Teaser $teaser
      */
-    public function __construct( private readonly Teaser $teaser)
+    public function __construct( public readonly Teaser $teaser)
     {
     }
     public function via($notifiable): array
