@@ -162,7 +162,13 @@ Um die Anwendung in der Produktion bereitzustellen:
    php artisan view:cache
    ```
 
-## Fehlerbehebung
+## Testing
+
+Um Tests durchzuführen, verwenden Sie Pest und  Führen Sie die Tests mit dem folgenden Befehl aus:
+
+```bash
+./vendor/bin/pest tests/Feature/Livewire/TeaserTest.php
+```
 
 ### Livewire-Komponenten werden nicht aktualisiert
 
