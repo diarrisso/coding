@@ -225,7 +225,7 @@ class TeaserForm extends Component
             'title' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:10|max:1000',
             'slug' => 'required|string|max:255',
-            'image' =>  'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_name' =>  'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'user_id' => 'required|exists:users,id',
         ];
     }
@@ -261,7 +261,7 @@ class TeaserForm extends Component
      * @param array<string, mixed> $attributes
      * @return array<string, mixed>
      */
-    protected function prepareForValidation($attributes)
+    protected function prepareForValidation($attributes): array
     {
         if (empty($attributes['slug']) && !empty($attributes['title'])) {
             $attributes['slug'] = $this->generateUniqueSlug($attributes['title']);

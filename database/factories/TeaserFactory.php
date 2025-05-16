@@ -17,7 +17,11 @@ class TeaserFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'title' => $this->faker->sentence(3),
+            'description' => $this->faker->paragraph(),
+            'slug' => $this->faker->slug(),
+            'image_name' => 'default-factory-image.jpg', // Default image name to satisfy NOT NULL constraint
+            'user_id' => \App\Models\User::factory(),
         ];
     }
 }
