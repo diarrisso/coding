@@ -47,8 +47,8 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         if (Auth::user()->isAdmin()) {
             $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
-        } else  {
-            $this->redirectIntended(default: route('home', absolute: false), navigate: true);
+        } else {
+            $this->redirectIntended(default: route('teasers.home', absolute: false), navigate: true);
         }
     }
 
