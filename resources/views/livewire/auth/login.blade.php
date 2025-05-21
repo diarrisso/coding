@@ -24,7 +24,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
     /**
      * Handle an incoming authentication request.
      */
-    public function login(): void
+    public function login(): \Illuminate\Http\RedirectResponse
     {
         $this->validate([
             'email' => ['required', 'string', 'email'],
@@ -46,9 +46,9 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
 
         if (Auth::user()->isAdmin()) {
-            $this->redirect(route('dashboard'));
+            return redirect()->route('dashboard');
         } else {
-            $this->redirect(route('teasers.home'));
+            return redirect()->route('teasers.home');
         }
     }
 
